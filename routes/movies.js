@@ -16,10 +16,10 @@ const movieSchema = Joi.object({
   rating: Joi.number().min(0).max(10).optional(),
 });
 
-// Get all movies
+// Get all movies sorted by createdAt in descending order
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const movies = await Movie.find().sort({ createdAt: -1 });
     if (!movies) return res.status(404).send("No movies found");
     res.status(200).send(movies);
   } catch (error) {
