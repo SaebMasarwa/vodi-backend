@@ -26,13 +26,13 @@ jobs:
           deno-version: v1.x
 
       - name: Install
-        run: "npm install"
-
-      - name: Build
         run: ""
 
-      - name: Publish the script to Bunny
-        uses: "BunnyWay/actions/deploy-script@main"
-        with:
-          script_id: 22850
-          file: "npm install"
+      - name: Build
+        run: "npm install"
+
+      - name: Deploy Script to Bunny Edge Scripting
+  uses: BunnyWay/actions/deploy-script@main
+  with:
+    script_id: 22850
+    file: "script.ts"
