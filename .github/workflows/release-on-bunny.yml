@@ -35,4 +35,5 @@ jobs:
   uses: BunnyWay/actions/deploy-script@main
   with:
     script_id: 22850
-    file: "script.ts"
+    deploy_key: d4100be5-bf1b-47a9-900d79c3886b-862a-4d11
+    file: "index.js"
