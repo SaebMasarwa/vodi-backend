@@ -26,10 +26,10 @@ jobs:
           deno-version: v1.x
 
       - name: Install
-        run: "npm install"
+        run: ""
 
       - name: Build
-        run: ""
+        run: "npm install"
 
       - name: Deploy Script to Bunny Edge Scripting
   uses: BunnyWay/actions/deploy-script@main
