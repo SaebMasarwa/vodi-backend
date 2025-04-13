@@ -31,8 +31,8 @@ jobs:
       - name: Build
         run: ""
 
-      - name: Publish the script to Bunny
-        uses: "BunnyWay/actions/deploy-script@main"
-        with:
-          script_id: 22850
-          file: "npm install"
+      - name: Deploy Script to Bunny Edge Scripting
+  uses: BunnyWay/actions/deploy-script@main
+  with:
+    script_id: 22850
+    file: "script.ts"
