@@ -13,6 +13,7 @@ const movieSchema = Joi.object({
   releaseDate: Joi.date().required(),
   genre: Joi.string().required(),
   youtubeId: Joi.string().required(),
+
   rating: Joi.number().min(0).max(10).optional(),
 });
 
@@ -31,24 +32,38 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
-    if (!movie) return res.status(404).send("Movie not found");
+    if (!movie) return res.status(404).send("No movie found");
+    res.status(200).send(movie);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+// Get movies in a specific genre
+router.get("/genre/:id", async (req, res) => {
+  try {
+    const movie = await Movie.find({ genre: req.params.id });
+    console.log(movie);
+
+    if (!movie) return res.status(404).send("No movies found in this genre");
     res.status(200).send(movie);
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
-// Add a movie
-// Only for admin users
+// Add a movie for admins and users
 router.post("/", auth, async (req, res) => {
   try {
-    if (req.payload.isAdmin === false) {
-      return res.status(404).send("User has no admin access");
+    if (req.payload === undefined) {
+      return res
+        .status(404)
+        .send("User doesn't have permsission to add a movie");
     } else {
       const { error } = movieSchema.validate(req.body);
       if (error) return res.status(400).send(error.details[0].message);
 
       const movie = new Movie(req.body);
+      movie.userId = req.payload._id;
       await movie.save();
       res.status(201).send(movie);
     }
@@ -76,8 +91,6 @@ router.put("/:id", auth, async (req, res) => {
           releaseDate: req.body.releaseDate,
           genre: req.body.genre,
           youtubeId: req.body.youtubeId,
-          //   likes: req.body.likes,
-          //   cast: req.body.cast,
           rating: req.body.rating,
         },
         { new: true }
