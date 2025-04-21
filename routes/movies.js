@@ -51,7 +51,7 @@ router.get("/genre/:id", async (req, res) => {
   }
 });
 
-// Add a movie for admins and users
+// Add a movie for admins and logged in users
 router.post("/", auth, async (req, res) => {
   try {
     if (req.payload === undefined) {
