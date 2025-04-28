@@ -67,12 +67,14 @@ router.post("/login", async (req, res) => {
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.payload._id);
-    if (user.isAdmin === false) {
-      return res.status(404).send("User has no admin access");
-    } else {
+    if (!user) return res.status(404).send("No such user");
+
+    if (user.isAdmin) {
       const allUsers = await User.find();
+      res.status(200).send(allUsers);
+    } else {
+      return res.status(404).send("User has no admin access");
     }
-    res.status(200).send(allUsers);
   } catch (error) {
     res.status(400).send(error);
   }
