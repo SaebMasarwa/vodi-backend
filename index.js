@@ -29,13 +29,13 @@ morgan.token("error", function (req, res) {
 
 // Set up rate limiter: maximum of 100 requests per 24 hours per IP
 const limiter = rateLimit({
-  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  windowMs: 15 * 60 * 1000, // 24 hours
   max: 100, // Limit each IP to 100 requests per `window` (here, per 24 hours)
   message: "Too many requests from this IP, please try again after 24 hours",
 });
 
 // Apply the rate limiter to all requests
-app.use(limiter);
+// app.use(limiter);
 
 // Logging errors to file if status code is 400 or higher
 app.use(

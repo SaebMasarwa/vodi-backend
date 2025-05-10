@@ -109,19 +109,19 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// Update user isBusiness status
+// Update user isAdmin status
 router.patch("/:id", auth, async (req, res) => {
   try {
-    if (req.payload._id === req.params.id) {
+    if (req.payload.isAdmin === true) {
       const user = await User.findById(req.payload._id);
       if (!user) return res.status(404).send("No such user");
-      if (user.isBusiness === true) {
+      if (user.isAdmin === true) {
         const userResult = await User.findByIdAndUpdate(req.params.id, {
-          isBusiness: false,
+          isAdmin: false,
         });
       } else {
         const userResult = await User.findByIdAndUpdate(req.params.id, {
-          isBusiness: true,
+          isAdmin: true,
         });
       }
     }
