@@ -4,7 +4,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 const users = require("./routes/users");
 const movies = require("./routes/movies");
-const shows = require("./routes/shows");
 const User = require("./models/User");
 const fs = require("node:fs");
 const path = require("node:path");
