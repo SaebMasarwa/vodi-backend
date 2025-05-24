@@ -75,7 +75,6 @@ router.post("/", auth, async (req, res) => {
 // Only for admin users and the user who created the movie
 router.put("/:id", auth, async (req, res) => {
   try {
-    // Check if the user is an admin
     const movieRes = await Movie.findById(req.params.id);
     if (!movieRes) return res.status(404).send("Movie not found");
     if (req.payload.isAdmin === true || req.payload._id === movieRes.userId) {
@@ -100,12 +99,14 @@ router.put("/:id", auth, async (req, res) => {
 // Only for admin users and the user who created the movie
 router.delete("/:id", auth, async (req, res) => {
   try {
-    if (req.payload.isAdmin === true) {
+    const movieRes = await Movie.findById(req.params.id);
+    if (!movieRes) return res.status(404).send("Movie not found");
+    if (req.payload.isAdmin === true || req.payload._id === movieRes.userId) {
       const movie = await Movie.findByIdAndDelete(req.params.id);
       if (!movie) return res.status(404).send("Movie not found");
       res.status(200).send(movie);
     } else {
-      return res.status(404).send("User has no admin access");
+      return res.status(404).send("User has no permisson to delete this movie");
     }
   } catch (error) {
     res.status(400).send(error);
