@@ -125,7 +125,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiter to all requests
-app.use(limiter);
+// app.use(limiter);
 
 // Logging errors to file if status code is 400 or higher
 app.use(
